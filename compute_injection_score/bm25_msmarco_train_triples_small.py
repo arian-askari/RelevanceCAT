@@ -87,6 +87,6 @@ with open(train_filepath, 'rt') as fIn:
         neg_score = index_reader.compute_query_document_score(neg_id, query, similarity=similarity_bm25)
         scores[qid][neg_id] = neg_score
 
-out_query_triples_bm25scores_dict_path = "bm25_scores_train_triples_small.json"
-with open(out_query_triples_bm25scores_dict_path, "w+") as fp:
+scores_dict_path = "bm25_scores_train_triples_small.json"
+with open(scores_dict_path, "w+") as fp:
     json.dump(scores, indent=True, fp = fp)
