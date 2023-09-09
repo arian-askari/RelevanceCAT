@@ -8,9 +8,9 @@ Over 700,000 downloads of the all-MiniLM-L12-v2 in the last month, particularly 
 The mission is simple: to contribute to the community by offering a more effective all-MiniLM-L12-v2 re-ranker. We hope that this benefits all in practical ways. 
 
 ## Pre-trained models
-To address diverse needs and scenarios, we have trained four different variations of the minilm model:
+To address diverse needs and scenarios, we have trained four different variations of the MiniLM model:
 
-1. **all-MiniLM-L12-v2.1-bm25added**: This model is designed for users who want to effortlessly upgrade to a more effective minilm without any modifications. In this variation, we've incorporated BM25 scores into the loss function, similar to knowledge distillation proposed by  [Hostätter et al.](https://arxiv.org/abs/2010.02666) et al. While it is less challenging to implement than options 2-4, it still outperforms minilm-v2 in terms of effectiveness. Please refer to the table at the end of this post for a detailed comparison.
+1. **all-MiniLM-L12-v2.1-bm25added**: This model is designed for users who want to effortlessly upgrade to a more effective MiniLM without any modifications. In this variation, we've incorporated BM25 scores into the loss function, similar to the knowledge distillation proposed by  [Hostätter et al.](https://arxiv.org/abs/2010.02666) et al. While it is less challenging to implement than options 2-4, it still outperforms MiniLM-v2 in terms of effectiveness. Please refer to the table at the end of this post for a detailed comparison.
 
 2. **all-MiniLM-L12-v3-bm25**: If you have access to BM25 scores for both the query and candidate documents, this model allows you to seamlessly inject these scores into the input. This approach is particularly beneficial when working with cases that rely on both BM25 and DPR, as BM25 alone can yield a more effective model. However, combining BM25 and DPR scores, as in option 4, can offer the highest level of effectiveness.
 
@@ -31,4 +31,4 @@ Coming soon
 
 ## Conclusion
 
-We are excited to introduce these enhanced minilm models, which offer a spectrum of options for users with varying needs and access to different score types. Whether you seek a straightforward upgrade or the utmost effectiveness through score injection, our minilm-v3 models are here to empower your natural language processing tasks. We invite you to explore these models and select the one that best suits your requirements.
+We are excited to introduce these enhanced MiniLM models, which offer a spectrum of options for users with varying needs and access to different score types. Whether you seek a straightforward upgrade or the utmost effectiveness through score injection, our MiniLM-v3 models are here to empower your natural language processing tasks. We invite you to explore these models and select the one that best suits your requirements.
