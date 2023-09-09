@@ -1,4 +1,4 @@
-# A more effective version of all-MiniLM-L12-v2!
+# all-MiniLM-L12-v3: A more effective version of all-MiniLM-L12-v2!
 We provide a more effective version of all-MiniLM-L12-v2 following our recent paper titled "Injecting the BM25 Score as Text Improves BERT-Based Re-rankers" and show that "Injecting BM25/DPR score into all-MiniLM-L12-v2 improves its effectiveness"! 🎉
 
 ## Motivation
