@@ -1,5 +1,5 @@
-# A more effective version of all-MiniLM-L12-v2
-We provide a more effective version of all-MiniLM-L12-v2 following our recent paper titled "Injecting the BM25 Score as Text Improves BERT-Based Re-rankers" and show that "Injecting BM25/DPR score into all-MiniLM-L12-v2 improves its effectiveness"!
+# A more effective version of all-MiniLM-L12-v2!
+We provide a more effective version of all-MiniLM-L12-v2 following our recent paper titled "Injecting the BM25 Score as Text Improves BERT-Based Re-rankers" and show that "Injecting BM25/DPR score into all-MiniLM-L12-v2 improves its effectiveness"! 🎉
 
 ## Motivation
 Over 700,000 downloads of the all-MiniLM-L12-v2 in the last month, particularly in the era of Large Language Models, show that the demand for this model is very real, and it's what drove us to create something even more powerful. Building on our paper, "Injecting the BM25 Score as Text Improves BERT-Based Re-rankers," We thought, "Why not put this idea to good use?"
