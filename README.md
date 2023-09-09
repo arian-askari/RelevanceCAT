@@ -3,7 +3,7 @@ We provide a more effective version of all-MiniLM-L12-v2 following by our recent
 
 
 ## Motivation
-Over 700,000 downloads of the all-MiniLM-L12-v2 in the last month, particularly in the era of Large Language Models, shows that the demand for this model is very real, and it's what drove me to create something even more powerful. Building on our paper, "Enhancing BERT-Based Re-Rankers with BM25," We thought, "Why not put this idea to good use?"
+Over 700,000 downloads of the all-MiniLM-L12-v2 in the last month, particularly in the era of Large Language Models, shows that the demand for this model is very real, and it's what drove us to create something even more powerful. Building on our paper, "Enhancing BERT-Based Re-Rankers with BM25," We thought, "Why not put this idea to good use?"
 
 ## Objective
 The mission is simple: to contribute to the community by offering a more effective MiniLM re-ranker. We hope that this upgrade will benefit you in practical ways, making it easier to achieve outstanding results. 
