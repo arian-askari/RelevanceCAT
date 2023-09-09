@@ -10,7 +10,7 @@ The mission is simple: to contribute to the community by offering a more effecti
 ## Pre-trained models
 To address diverse needs and scenarios, we have trained four different variations of the minilm model:
 
-1. **all-MiniLM-L12-v2.1-bm25added**: This model is designed for users who want to effortlessly upgrade to a more effective minilm without any modifications. In this variation, we've incorporated BM25 scores into the loss function, similar to knowledge distillation proposed by  Hofstätter et al. While it is less challenging to implement than options 2-4, it still outperforms minilm-v2 in terms of effectiveness. Please refer to the table at the end of this post for a detailed comparison.
+1. **all-MiniLM-L12-v2.1-bm25added**: This model is designed for users who want to effortlessly upgrade to a more effective minilm without any modifications. In this variation, we've incorporated BM25 scores into the loss function, similar to knowledge distillation proposed by  [Hostätter et al.](https://arxiv.org/abs/2010.02666) et al. While it is less challenging to implement than options 2-4, it still outperforms minilm-v2 in terms of effectiveness. Please refer to the table at the end of this post for a detailed comparison.
 
 2. **all-MiniLM-L12-v3-bm25**: If you have access to BM25 scores for both the query and candidate documents, this model allows you to seamlessly inject these scores into the input. This approach is particularly beneficial when working with cases that rely on both BM25 and DPR, as BM25 alone can yield a more effective model. However, combining BM25 and DPR scores, as in option 4, can offer the highest level of effectiveness.
 
