@@ -26,6 +26,6 @@ with open(top1000_filepath) as fIn:
     scores[qid][pid] = score
 
 
-scores_dict_path = "2_BM25_scores_MSMARCO_DEV.json"
+scores_dict_path = "2_msmarco_DEV_bm25_scores.json"
 with open(scores_dict_path, "w+") as fp:
     json.dump(scores, indent=True, fp = fp)
