@@ -66,7 +66,7 @@ model_max_length = 230 + 3 # 3:[cls]query[sep]doc[sep]. Because we do not have i
 
 train_batch_size = 64
 accumulation_steps = 1
-evaluation_steps = 100#5000
+evaluation_steps = 5000
 print("model_name {} | model_max_length {} | batch_size {} | accumulation_steps {} ".format(model_name, model_max_length, train_batch_size, accumulation_steps))
 
 print("Reading {}...".format(scores_path))
