@@ -34,7 +34,7 @@ max_length_query = 30
 max_length_passage = 200
 model_max_length = 230 + 3 + 3 # 3:[cls]query[sep]doc[sep]. Because we do have injecting into the input, we do not consider 3 token for v2.1! 3 extra tokens are needed in injection because bm25 score: normally takes two tokens, and onre more sep bm25 score [sep]
 
-print("fine_tuned_model_path {} | model_max_length {} | queries_path {} | accumulation_steps {} ".format(fine_tuned_model_path, model_max_length, queries_path, accumulation_steps))
+print("fine_tuned_model_path {} | model_max_length {} | queries_path {} | ranking_output_path {} ".format(fine_tuned_model_path, model_max_length, queries_path, ranking_output_path))
 
 scores = json.loads(open(scores_path, "r").read())
 for qid in tqdm.tqdm(scores.keys(), desc = "reading scores...{}".format(scores_path)):
@@ -507,7 +507,8 @@ def read_top1000_run(f_path, corpus, queries, separator = " "):
   samples = {}
   with open(f_path, "r") as fp:
     for line in tqdm.tqdm(fp, desc="reading {}".format(f_path)):
-      qid, _, did, rank, score, __ = line.strip().split(separator)
+      # qid, _, did, rank, score, __ = line.strip().split(separator)
+      qid, pid, query, passage = line.strip().split("\t")
       if qid not in queries: continue
       query = queries[qid]
       if qid not in samples:
@@ -518,8 +519,13 @@ def read_top1000_run(f_path, corpus, queries, separator = " "):
 
 """## Reading data
 
-### reading corpus and queries and truncate it
-"""
+
+"""### reading qrel"""
+
+with open(qrel_path, 'r') as f_qrel:
+    qrel = pytrec_eval.parse_qrel(f_qrel)
+
+### reading corpus and queries and truncate it 
 
 queries = read_collection(queries_path)
 corpus =  read_collection(corpus_path)
@@ -532,11 +538,6 @@ corpus = get_truncated_dict(corpus,tokenizer, max_length_passage)
 test_samples = read_top1000_run(top100_run_path, corpus, queries, separator = " ")
 
 
-
-"""### reading qrel"""
-
-with open(qrel_path, 'r') as f_qrel:
-    qrel = pytrec_eval.parse_qrel(f_qrel)
 
 """# Evaluating"""
 
@@ -553,3 +554,7 @@ evaluator = CERerankingEvaluatorTest(
 measures_results = evaluator.rank(model)
 
 print("measures_results: ", measures_results)
+
+"""## BM25, MAP: 0.06
+## LegalBERT-finetuned, MAP: 0.19
+"""

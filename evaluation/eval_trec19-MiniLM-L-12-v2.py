@@ -11,7 +11,7 @@ logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 """# Initializing variables
 """
-model_name = "/ivi/ilps/personal/aaskari/minilmv3/finetuned_CEs/final_models/ms-marco-MiniLM-L-12-v2-v2.1-bm25added/"
+model_name = "/ivi/ilps/personal/aaskari/minilmv3/finetuned_CEs/final_models/ms-marco-MiniLM-L-12-v2-v2/"
 fine_tuned_model_path = model_name
 ranking_output_path = model_name + "trec19.ranking"
 base_write_path = "/ivi/ilps/personal/aaskari/minilmv3/"
@@ -509,6 +509,7 @@ def read_top1000_run(f_path, corpus, queries, separator = " "):
       samples[qid]['docs_ids'].append(did)
   return samples
 
+
 """## Reading data
 
 
@@ -528,6 +529,7 @@ corpus = get_truncated_dict(corpus,tokenizer, max_length_passage)
 
 """### reading top1000: main"""
 test_samples = read_top1000_run(top100_run_path, corpus, queries, separator = " ")
+
 
 
 """# Evaluating"""
