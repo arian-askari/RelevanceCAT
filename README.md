@@ -1,4 +1,4 @@
-# ms-marco-MiniLM-L-12-v2-v3: A more effective version of ms-marco-MiniLM-L-12-v2-v2!
+# ms-marco-MiniLM-L-12-v2-v3: A more effective version of cross-encoder/ms-marco-MiniLM-L-12-v2!
 We provide a more effective version of ms-marco-MiniLM-L-12-v2-v2 following our recent paper titled "Injecting the BM25 Score as Text Improves BERT-Based Re-rankers" and show that "Injecting BM25/DPR score into ms-marco-MiniLM-L-12-v2-v2 improves its effectiveness"! 🎉
 
 ## Motivation
