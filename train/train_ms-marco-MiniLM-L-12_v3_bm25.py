@@ -53,7 +53,7 @@ queries_path = base_path + "queries.train.tsv"
 corpus_path = base_path + "collection.tsv"
 triples_train_path = base_path + "bert_cat_ensemble_msmarcopassage_train_scores_ids.tsv?download=1"
 triples_validation_path = base_path + "msmarco-qidpidtriples.rnd-shuf.train-eval.tsv"
-model_save_path = base_write_path + 'finetuned_CEs/train_all-MiniLM-L12-v2.1-bm25added-'+datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+model_save_path = base_write_path + 'finetuned_CEs/train_all-MiniLM-L12-v3-'+datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 # training parameters
 max_length_query = 30
 max_length_passage = 200
