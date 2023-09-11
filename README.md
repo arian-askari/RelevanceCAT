@@ -1,22 +1,22 @@
-# all-MiniLM-L12-v3: A more effective version of all-MiniLM-L12-v2!
-We provide a more effective version of all-MiniLM-L12-v2 following our recent paper titled "Injecting the BM25 Score as Text Improves BERT-Based Re-rankers" and show that "Injecting BM25/DPR score into all-MiniLM-L12-v2 improves its effectiveness"! 🎉
+# ms-marco-MiniLM-L-12-v2-v3: A more effective version of ms-marco-MiniLM-L-12-v2-v2!
+We provide a more effective version of ms-marco-MiniLM-L-12-v2-v2 following our recent paper titled "Injecting the BM25 Score as Text Improves BERT-Based Re-rankers" and show that "Injecting BM25/DPR score into ms-marco-MiniLM-L-12-v2-v2 improves its effectiveness"! 🎉
 
 ## Motivation
-Over 700,000 downloads of the all-MiniLM-L12-v2 in the last month, particularly in the era of Large Language Models, show that the demand for this model is very real, and it's what drove us to create something even more powerful. Building on our paper, "Injecting the BM25 Score as Text Improves BERT-Based Re-rankers," We thought, "Why not put this idea to good use?"
+Over 700,000 downloads of the ms-marco-MiniLM-L-12-v2-v2 in the last month, particularly in the era of Large Language Models, show that the demand for this model is very real, and it's what drove us to create something even more powerful. Building on our paper, "Injecting the BM25 Score as Text Improves BERT-Based Re-rankers," We thought, "Why not put this idea to good use?"
 
 ## Objective
-The mission is simple: to contribute to the community by offering a more effective all-MiniLM-L12-v2 re-ranker. We hope that this benefits all in practical ways. 
+The mission is simple: to contribute to the community by offering a more effective ms-marco-MiniLM-L-12-v2-v2 re-ranker. We hope that this benefits all in practical ways. 
 
 ## Pre-trained models
 To address diverse needs and scenarios, we have trained four different variations of the MiniLM model:
 
-1. **all-MiniLM-L12-v2.1-bm25added**: This model is designed for users who want to effortlessly upgrade to a more effective MiniLM without any modifications. In this variation, we've incorporated BM25 scores into the loss function, similar to the knowledge distillation proposed by  [Hostätter et al.](https://arxiv.org/abs/2010.02666) et al. While it is less challenging to implement than options 2-4, it still outperforms MiniLM-v2 in terms of effectiveness. Please refer to the table at the end of this post for a detailed comparison.
+1. **ms-marco-MiniLM-L-12-v2-v2.1-bm25added**: This model is designed for users who want to effortlessly upgrade to a more effective MiniLM without any modifications. In this variation, we've incorporated BM25 scores into the loss function, similar to the knowledge distillation proposed by  [Hostätter et al.](https://arxiv.org/abs/2010.02666) et al. While it is less challenging to implement than options 2-4, it still outperforms MiniLM-v2 in terms of effectiveness. Please refer to the table at the end of this post for a detailed comparison.
 
-2. **all-MiniLM-L12-v3-bm25**: If you have access to BM25 scores for both the query and candidate documents, this model allows you to seamlessly inject these scores into the input. This approach is particularly beneficial when working with cases that rely on both BM25 and DPR, as BM25 alone can yield a more effective model. However, combining BM25 and DPR scores, as in option 4, can offer the highest level of effectiveness.
+2. **ms-marco-MiniLM-L-12-v2-v3-bm25**: If you have access to BM25 scores for both the query and candidate documents, this model allows you to seamlessly inject these scores into the input. This approach is particularly beneficial when working with cases that rely on both BM25 and DPR, as BM25 alone can yield a more effective model. However, combining BM25 and DPR scores, as in option 4, can offer the highest level of effectiveness.
 
-3. **all-MiniLM-L12-v3-dpr**: For users with access to DPR scores for the query and candidate documents, this model facilitates the straightforward injection of DPR scores into the input. While this option is less challenging to implement and computationally more affordable, it offers the second-best level of effectiveness.
+3. **ms-marco-MiniLM-L-12-v2-v3-dpr**: For users with access to DPR scores for the query and candidate documents, this model facilitates the straightforward injection of DPR scores into the input. While this option is less challenging to implement and computationally more affordable, it offers the second-best level of effectiveness.
 
-4. **all-MiniLM-L12-v3-bm25dpr**: The most powerful option, this model is designed for users who have access to both DPR and BM25 scores and can inject both into the input. This approach delivers the highest level of effectiveness and is especially valuable for pipelines already utilizing BM25 and DPR in their initial stage setup.
+4. **ms-marco-MiniLM-L-12-v2-v3-bm25dpr**: The most powerful option, this model is designed for users who have access to both DPR and BM25 scores and can inject both into the input. This approach delivers the highest level of effectiveness and is especially valuable for pipelines already utilizing BM25 and DPR in their initial stage setup.
 
 ## Evaluation
 
