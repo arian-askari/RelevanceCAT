@@ -1,5 +1,8 @@
-# ms-marco-MiniLM-L-12-v2-v3: A more effective version of cross-encoder/ms-marco-MiniLM-L-12-v2!
-We provide a more effective version of ms-marco-MiniLM-L-12-v2-v2 following our recent paper titled "Injecting the BM25 Score as Text Improves BERT-Based Re-rankers" and show that "Injecting BM25/DPR score into ms-marco-MiniLM-L-12-v2-v2 improves its effectiveness"! 🎉
+# Building a more effective version of cross-encoder/ms-marco-MiniLM-L-12-v2 by injecting BM25/DPR score into the input!
+
+Our objective is to improve the effectiveness of ms-marco-MiniLM-L-12-v2-v2, building on the findings presented in our recent paper titled "Injecting the BM25 Score as Text Improves BERT-Based Re-rankers." We demonstrate that the integration of BM25 score into ms-marco-MiniLM-L-12-v2 significantly improves its effectiveness. Our ongoing research has consistently shown promising results with the incorporation of BM25 and DPR scores into the model input. 
+While we observed the significant improvement by injecing BM25 into the input of ms-marco-MiniLM-L-12-v2, it is important to note that our replication of MiniLM-L12-V2 achieves lower performance than its public original checkpoint, and as a result, the improvement that we achieve by injecting BM25 is still lower than the original checkpoint of ms-marco-MiniLM-L-12-v2. This need to be fixed as the first step in order to being able to establish a new state-of-the-art model by injecting BM25. We provide regular updates on our evaluation results in the repository's bottom section. We will provide more analysis soon!
+
 
 ## Motivation
 Over 660,000 downloads of the ms-marco-MiniLM-L-12-v2-v2 in the last month, particularly in the era of Large Language Models, show that the demand for this model is very real, and it's what drove us to create something even more powerful. Building on our paper, "Injecting the BM25 Score as Text Improves BERT-Based Re-rankers," We thought, "Why not put this idea to good use?"
