@@ -1,7 +1,11 @@
 # Building a more effective version of cross-encoder/ms-marco-MiniLM-L-12-v2 by injecting BM25/DPR score into the input!
 
-Our objective is to improve the effectiveness of ms-marco-MiniLM-L-12-v2-v2, building on the findings presented in our recent paper titled "Injecting the BM25 Score as Text Improves BERT-Based Re-rankers." We demonstrate that the integration of BM25 score into ms-marco-MiniLM-L-12-v2 significantly improves its effectiveness. Our ongoing research has consistently shown promising results with the incorporation of BM25 and DPR scores into the model input. 
-While we observed the significant improvement by injecing BM25 into the input of ms-marco-MiniLM-L-12-v2, it is important to note that our replication of MiniLM-L12-V2 achieves lower performance than its public original checkpoint, and as a result, the improvement that we achieve by injecting BM25 is still lower than the original checkpoint of ms-marco-MiniLM-L-12-v2. This need to be fixed as the first step in order to being able to establish a new state-of-the-art model by injecting BM25. We provide regular updates on our evaluation results in the repository's bottom section. We will provide more analysis soon!
+Our objective is to improve the effectiveness of ms-marco-MiniLM-L-12-v2-v2, building on the findings presented in our recent paper titled "Injecting the BM25 Score as Text Improves BERT-Based Re-rankers." 
+
+We demonstrate that the integration of the BM25 score into ms-marco-MiniLM-L-12-v2 significantly improves its effectiveness. Our ongoing research has consistently shown promising results with the incorporation of BM25 and DPR scores into the model input. 
+
+
+While we observed the significant improvement by injecting BM25 into the input of ms-marco-MiniLM-L-12-v2, it is important to note that our replication of MiniLM-L12-V2 achieves lower performance than its public original checkpoint, and as a result, the improvement that we achieve by injecting BM25 is still lower than the original checkpoint of ms-marco-MiniLM-L-12-v2. This needs to be fixed as the first step in order to be able to establish a new state-of-the-art model by injecting BM25. We provide regular updates on our evaluation results in the repository's bottom section. We will provide more analysis soon!
 
 
 ## Motivation
