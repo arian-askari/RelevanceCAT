@@ -7,6 +7,11 @@ We demonstrate that the integration of the BM25 score into ms-marco-MiniLM-L-12-
 
 While we observed the significant improvement by injecting BM25 into the input of ms-marco-MiniLM-L-12-v2, it is important to note that our replication of MiniLM-L12-V2 achieves lower performance than its public original checkpoint, and as a result, the improvement that we achieve by injecting BM25 is still lower than the original checkpoint of ms-marco-MiniLM-L-12-v2. This needs to be fixed as the first step in order to be able to establish a new state-of-the-art model by injecting BM25. We provide regular updates on our evaluation results in the repository's bottom section. We will provide more analysis soon!
 
+## Quick run notebook:
+
+To quickly train a cross-encoder for a BM25CAT-based re-ranker in a knowledge distillation setup, you could use the implementation below:
+
+[train_cross-encoder_kd_BM25CAT](https://colab.research.google.com/drive/1mzWJ3vBciCYpjce75rHirLwUYL_4nTdS?usp=sharing) [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1mzWJ3vBciCYpjce75rHirLwUYL_4nTdS?usp=sharing) 
 
 ## Motivation
 Over 660,000 downloads of the ms-marco-MiniLM-L-12-v2-v2 in the last month, particularly in the era of Large Language Models, show that the demand for this model is very real, and it's what drove us to create something even more powerful. Building on our paper, "Injecting the BM25 Score as Text Improves BERT-Based Re-rankers," We thought, "Why not put this idea to good use?"
