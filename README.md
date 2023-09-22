@@ -7,7 +7,7 @@ We demonstrate that the integration of the BM25 score into ms-marco-MiniLM-L-12-
 
 While we observed the significant improvement by injecting BM25 into the input of ms-marco-MiniLM-L-12-v2, it is important to note that our replication of MiniLM-L12-V2 achieves lower performance than its public original checkpoint, and as a result, the improvement that we achieve by injecting BM25 is still lower than the original checkpoint of ms-marco-MiniLM-L-12-v2. This needs to be fixed as the first step in order to be able to establish a new state-of-the-art model by injecting BM25. We provide regular updates on our evaluation results in the repository's bottom section. We will provide more analysis soon!
 
-## Quick run notebook:
+## Quick run notebook
 
 To quickly train a cross-encoder_BM25CAT re-ranker in a knowledge distillation setup, you could use the implementation below:
 
