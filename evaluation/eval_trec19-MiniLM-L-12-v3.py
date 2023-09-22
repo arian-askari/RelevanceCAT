@@ -13,7 +13,7 @@ logger.setLevel(logging.DEBUG)
 """
 model_name = "/ivi/ilps/personal/aaskari/minilmv3/finetuned_CEs/final_models/ms-marco-MiniLM-L-12-v2-v3-bm25/"
 fine_tuned_model_path = model_name
-ranking_output_path = model_name + "trec19.ranking"
+ranking_output_path = model_name + "trec19_errorfixed.ranking"
 base_write_path = "/ivi/ilps/personal/aaskari/minilmv3/"
 base_path = base_write_path + "msmarco-data/"
 injection_scores_path = base_path + "injection_scores/"
@@ -27,7 +27,7 @@ pos_neg_ratio = 4
 max_train_samples = 0 # full train set
 valid_max_queries = 0 # full validation set
 valid_max_negatives_per_query = 0 # full negatives per query
-corpus_path = base_path + "collection.tsv"
+corpus_path = base_path + "collection_truncated.tsv"
 triples_train_path = base_path + "bert_cat_ensemble_msmarcopassage_train_scores_ids.tsv?download=1"
 triples_validation_path = base_path + "msmarco-qidpidtriples.rnd-shuf.train-eval.tsv"
 max_length_query = 30
@@ -375,7 +375,7 @@ import csv
 import pytrec_eval
 import tqdm
 from sentence_transformers import LoggingHandler, util
-class CERerankingEvaluator:
+class CERerankingEvaluatorTest:
     """
     This class evaluates a CrossEncoder model for the task of re-ranking.
 
@@ -385,96 +385,108 @@ class CERerankingEvaluator:
     :param samples: Must be a list and each element is of the form: {'query': '', 'positive': [], 'negative': []}. Query is the search query,
      positive is a list of positive (relevant) documents, negative is a list of negative (irrelevant) documents.
     """
-    def __init__(self, samples, all_metrics: set = {"recall.1"}, name: str = '', write_csv: bool = True, show_progress_bar: bool = False):
+    def __init__(self, samples, qrel, all_metrics: set = {"recall.10"}, ranking_output_path: str = '', batch_size: int = 16):
         self.samples = samples
-        self.name = name
         self.all_metrics = all_metrics
-
+        self.qrel = qrel
+        self.ranking_output_path = ranking_output_path
+        self.batch_size = batch_size
         if isinstance(self.samples, dict):
             self.samples = list(self.samples.values())
-
-        self.csv_file = "CERerankingEvaluator" + ("_" + name if name else '') + "_results.csv"
-        self.csv_headers = ["epoch", "steps"] + list(all_metrics)
-        self.write_csv = write_csv
         self.mean_metrics = {}
-        self.show_progress_bar = show_progress_bar
-    def __call__(self, model, output_path: str = None, epoch: int = -1, steps: int = -1) -> float:
-        mean_ndcg = 0
-
-        if epoch != -1:
-            if steps == -1:
-                out_txt = " after epoch {}:".format(epoch)
-            else:
-                out_txt = " in epoch {} after {} steps:".format(epoch, steps)
-        else:
-            out_txt = ":"
-
-        logger.info("CERerankingEvaluator: Evaluating the model on " + self.name + " dataset" + out_txt)
-
-        all_ndcg_scores = []
-        num_queries = 0
-        num_positives = []
-        num_negatives = []
-        run = {}
-        qrel = {}
-        print("len: self.samples: " + str(len(self.samples)))
+    def rank(self, model) -> float:
+        print("len: # queries: " + str(len(self.samples)))
+        cnt = 0
         try:
+            run = {}
+            f_w = open(self.ranking_output_path, "w+")
             for instance in tqdm.tqdm(self.samples):
-                # print("instance: ", instance)
+                cnt += 1
+                print("cnt: ", cnt)
                 qid = instance['qid']
-                query = instance['query']
-                positive = list(instance['positive'])
-                negative = list(instance['negative'])
-                positive_pids = list(instance['positive_ids'])
-                negative_pids = list(instance['negative_ids'])
-                docs =  negative + positive
-                docs_ids = negative_pids + positive_pids
-                is_relevant = [False]*len(negative) +  [True]*len(positive)
-
-                qrel[qid] = {}
-                run[qid] = {}
-                for pid in positive_pids:
-                    qrel[qid][pid] = 1
-
-                if len(positive) == 0 or len(negative) == 0:
-                    continue
-
-                num_queries += 1
-                num_positives.append(len(positive))
-                num_negatives.append(len(negative))
-
-                model_input = [[query, doc] for doc in docs]
+                if qid not in run:
+                  run[qid] = {}
+                queries = instance['queries'] # change for injection. previoulsy it was: query = instance['query']
+                docs = list(instance['docs'])
+                ids = list(instance['docs_ids'])
+                model_input = [[query, doc] for query, doc in zip(queries, docs)]
                 if model.config.num_labels > 1: #Cross-Encoder that predict more than 1 score, we use the last and apply softmax
-                    pred_scores = model.predict(model_input, apply_softmax=True, batch_size=16, show_progress_bar = self.show_progress_bar)[:, 1].tolist()
+                    pred_scores = model.predict(model_input, apply_softmax=True, batch_size = self.batch_size)[:, 1].tolist()
                 else:
-                    pred_scores = model.predict(model_input, batch_size=16, show_progress_bar = self.show_progress_bar).tolist()
-                for pred_score, did in zip(list(pred_scores), docs_ids):
+                    pred_scores = model.predict(model_input, batch_size = self.batch_size).tolist()
+                for pred_score, did in zip(list(pred_scores), ids):
                     line = "{query_id} Q0 {document_id} {rank} {score} STANDARD\n".format(query_id=qid,
                                                                                           document_id=did,
                                                                                           rank="-10",#rank,
                                                                                           score=str(pred_score))
+                    f_w.write(line)
                     run[qid][did] = float(pred_score)
-
-            evaluator = pytrec_eval.RelevanceEvaluator(qrel, self.all_metrics)
-            scores = evaluator.evaluate(run)
-            self.mean_metrics = {}
-            metrics_string = ""
-            for metric in list(self.all_metrics):
-                self.mean_metrics[metric] = np.mean([ele[metric.replace(".","_")] for ele in scores.values()])
-                metrics_string = metrics_string +  "{}: {} | ".format(metric, self.mean_metrics[metric])
-            print("metrics eval: ", metrics_string)
-            logger.info("Queries: {} \t Positives: Min {:.1f}, Mean {:.1f}, Max {:.1f} \t Negatives: Min {:.1f}, Mean {:.1f}, Max {:.1f}".format(num_queries, np.min(num_positives), np.mean(num_positives), np.max(num_positives), np.min(num_negatives), np.mean(num_negatives), np.max(num_negatives)))
+            f_w.close()
+            if self.qrel is not None and self.qrel != "None" : # if we do not know labels, then we only re-rank and store run/ranked list file :)
+              evaluator = pytrec_eval.RelevanceEvaluator(self.qrel, self.all_metrics)
+              scores = evaluator.evaluate(run)
+              self.mean_metrics = {}
+              metrics_string = ""
+              for metric in list(self.all_metrics):
+                  self.mean_metrics[metric] = np.mean([ele[metric.replace(".","_")] for ele in scores.values()])
+                  metrics_string = metrics_string +  "{}: {} | ".format(metric, self.mean_metrics[metric])
+              print("metrics eval: ", metrics_string)
         except Exception as e:
             logger.error("error: ", e)
-        if output_path is not None and self.write_csv:
-            csv_path = os.path.join(output_path, self.csv_file)
-            output_file_exists = os.path.isfile(csv_path)
-            with open(csv_path, mode="a" if output_file_exists else 'w', encoding="utf-8") as f: # early stopping can be done by modifying this part. You can read this csv file. Then you need to count: best_step - last step + 1. if it is >earlystopping. then, you can just do sys.exit(1) to kill the process :)
-                writer = csv.writer(f)
-                if not output_file_exists:
-                    writer.writerow(self.csv_headers)
-                writer.writerow([epoch, steps, sum(self.mean_metrics.values())])
-        return sum(self.mean_metrics.values())
+        self.__fix_rank_filed() # store a ranking run file with <rank> field fixed in it!
+        return self.mean_metrics
+
+    def __fix_rank_filed(self, ranking_path = "", splittor = " ", return_lines = False, ranking_lines = None, remove_last_query = None):
+        splittor = splittor
+        if ranking_path == "":
+          ranking_path = self.ranking_output_path
+        else:
+          ranking_path = ranking_path
+        return_lines = return_lines
+        ranking_lines = ranking_lines
+        remove_last_query = remove_last_query
+
+        re_rank_dict = {} # structure {query: {did:score, }}
+        if ranking_lines is None:
+            ranking_lines = open(ranking_path, "r").readlines()
+        for line in ranking_lines:
+            line = line.strip()
+            if len(line.split(splittor))<4: continue
+            qid, q0, did, rank, score, runname = line.split(splittor)
+            if qid not in re_rank_dict:
+                re_rank_dict[qid]= {}
+            re_rank_dict[qid][did] = float(score)
+
+        json_query_docs_score = re_rank_dict
+        list_of_tupple = []
+        for query, docs_dict in json_query_docs_score.items():
+            for doc_id, score in docs_dict.items():
+                # print(query, doc_id, score)
+                list_of_tupple.append((query, doc_id, float(score)))
+
+        new_list = sorted(list_of_tupple, key=lambda element: (element[0], element[2]), reverse=True)
+        out_lines = ""
+        rank = 1
+        cur_q_id =""
+        find_duplicate = [] # structure: qid_doc_id
+        for query, doc_id, score in new_list:
+            dup = query+"_"+doc_id
+            if query == doc_id:continue
+            if cur_q_id == "":
+                cur_q_id = query
+            if cur_q_id != query:
+                rank = 1
+                cur_q_id = query
+            line = "{query_id} Q0 {document_id} {rank} {score} STANDARD\n".format(query_id=query,
+                                                                                        document_id=doc_id, rank=str(rank), score= str(score))
+            rank += 1
+            out_lines += line
+        if return_lines==True:
+            return out_lines
+        else:
+            f_qrel = open(ranking_path+"_rankfield_fixed", "w")
+            f_qrel.write(out_lines)
+            f_qrel.close()
 
 """#Data
 
@@ -503,16 +515,18 @@ def get_truncated_dict(id_content_dict, tokenizer, max_length):
 
 """### reading top1000: utils"""
 
-def read_top1000_run(f_path, corpus, queries, separator = " "):
+def read_top1000_run(f_path, corpus, queries, separator = " ", scores = {}, allowed_qids = None):
   samples = {}
   with open(f_path, "r") as fp:
     for line in tqdm.tqdm(fp, desc="reading {}".format(f_path)):
       # qid, _, did, rank, score, __ = line.strip().split(separator)
-      qid, pid, query, passage = line.strip().split("\t")
+      qid, did, query, passage = line.strip().split("\t")
       if qid not in queries: continue
+      if allowed_qids is not None and qid not in allowed_qids: continue
       query = queries[qid]
       if qid not in samples:
-        samples[qid] = {'qid': qid , 'query': "{} [SEP] {}".format(scores[qid][did], query), 'docs': list(), 'docs_ids': list()}
+        samples[qid] = {'qid': qid , 'queries': list(), 'docs': list(), 'docs_ids': list()} # 'query' is list because of injection. each injection changes the query part :)
+      samples[qid]['queries'].append("{} [SEP] {}".format(scores[qid][did], query))
       samples[qid]['docs'].append(corpus[did])
       samples[qid]['docs_ids'].append(did)
   return samples
@@ -531,11 +545,12 @@ queries = read_collection(queries_path)
 corpus =  read_collection(corpus_path)
 
 queries = get_truncated_dict(queries, tokenizer, max_length_query)
-corpus = get_truncated_dict(corpus,tokenizer, max_length_passage)
+#corpus = get_truncated_dict(corpus,tokenizer, max_length_passage) # corpus is already truncated :)
 
 
 """### reading top1000: main"""
-test_samples = read_top1000_run(top100_run_path, corpus, queries, separator = " ")
+allowed_qids = set({'19335', '47923', '87181', '87452', '104861', '130510', '131843', '146187', '148538', '156493', '168216', '182539', '183378', '207786', '264014', '359349', '405717', '443396', '451602', '489204', '490595', '527433', '573724', '833860', '855410', '915593', '962179', '1037798', '1063750', '1103812', '1106007', '1110199', '1112341', '1113437', '1114646', '1114819', '1115776', '1117099', '1121402', '1121709', '1124210', '1129237', '1133167'}) # judged qids need to be reranked!
+test_samples = read_top1000_run(top100_run_path, corpus, queries, separator = " ", scores = scores, allowed_qids = allowed_qids)
 
 
 
@@ -543,6 +558,7 @@ test_samples = read_top1000_run(top100_run_path, corpus, queries, separator = " 
 
 # model = CrossEncoder(fine_tuned_model_path, num_labels=1, max_length=model_max_length)
 model = CrossEncoder(fine_tuned_model_path, num_labels=1, max_length=model_max_length)
+batch_size = 64
 
 evaluator = CERerankingEvaluatorTest(
     test_samples,
