@@ -13,6 +13,11 @@ To quickly train a cross-encoder_BM25CAT re-ranker in a knowledge distillation s
 
 [train_cross-encoder_kd_BM25CAT](https://colab.research.google.com/drive/1mzWJ3vBciCYpjce75rHirLwUYL_4nTdS?usp=sharing) [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1mzWJ3vBciCYpjce75rHirLwUYL_4nTdS?usp=sharing) 
 
+[train_cross-encoder_kd_DPRCAT](https://colab.research.google.com/drive/1C8srKf1hCpzs5uBURgU4ESCpS0tlp_WB?usp=sharing
+) [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1C8srKf1hCpzs5uBURgU4ESCpS0tlp_WB?usp=sharing
+) 
+
+
 ## Motivation
 Over 660,000 downloads of the ms-marco-MiniLM-L-12-v2-v2 in the last month, particularly in the era of Large Language Models, show that the demand for this model is very real, and it's what drove us to create something even more powerful. Building on our paper, "Injecting the BM25 Score as Text Improves BERT-Based Re-rankers," We thought, "Why not put this idea to good use?"
 
