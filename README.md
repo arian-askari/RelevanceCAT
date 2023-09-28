@@ -42,14 +42,16 @@ To address diverse needs and scenarios, we have trained four different variation
 
 For the evaluation of these model variations, we employed the following setup: reranking on top of top-1000 retrieved documents by BM25. However, it's worth noting that option 4 could benefit from a more precise setup where the initial ranking involves the top 1000 candidates ranked by an ensemble of BM25 and DPR scores. If you choose this option in the future, please feel free to request a pull merge.
 
+
+<!--
+
 ## Results table
 
 (Note: BM25 scores are normalized as explained in our paper.)
 
 Coming soon
 
-
 ## Conclusion
-<!--
+
 We are excited to introduce these enhanced MiniLM models, which offer a spectrum of options for users with varying needs and access to different score types. Whether you seek a straightforward upgrade or the utmost effectiveness through score injection, our MiniLM-v3 models are here to empower your natural language processing tasks. We invite you to explore these models and select the one that best suits your requirements.
 -->
