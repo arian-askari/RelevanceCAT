@@ -37,10 +37,11 @@ To address diverse needs and scenarios, we have trained four different variation
 3. **ms-marco-MiniLM-L-12-v2-v3-dpr**: For users with access to DPR scores for the query and candidate documents, this model facilitates the straightforward injection of DPR scores into the input. While this option is less challenging to implement and computationally more affordable, it offers the second-best level of effectiveness.
 
 4. **ms-marco-MiniLM-L-12-v2-v3-bm25dpr**: The most powerful option, this model is designed for users who have access to both DPR and BM25 scores and can inject both into the input. This approach delivers the highest level of effectiveness and is especially valuable for pipelines already utilizing BM25 and DPR in their initial stage setup.
--->
 ## Evaluation
 
 For the evaluation of these model variations, we employed the following setup: reranking on top of top-1000 retrieved documents by BM25. However, it's worth noting that option 4 could benefit from a more precise setup where the initial ranking involves the top 1000 candidates ranked by an ensemble of BM25 and DPR scores. If you choose this option in the future, please feel free to request a pull merge.
+-->
+
 
 
 <!--
