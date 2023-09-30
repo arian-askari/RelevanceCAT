@@ -1,4 +1,5 @@
-# Injecting First-stage Retriever score into the input of cross-encoder re-rankers in a knowledge distillation training setup
+# Injecting the Score of the First-stage Retriever as Text Improves BERT-Based Re-rankers
+
 <!---
 Our objective is to improve the effectiveness of ms-marco-MiniLM-L-12-v2-v2, building on the findings presented in our recent paper titled "Injecting the BM25 Score as Text Improves BERT-Based Re-rankers." 
 
