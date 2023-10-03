@@ -1,4 +1,4 @@
-# Injecting the Score of the First-stage Retriever as Text Improves BERT-Based Re-rankers
+# Improving BERT-Based Re-rankers by Injecting First-Stage Retriever Score as Text 
 
 <!---
 Our objective is to improve the effectiveness of ms-marco-MiniLM-L-12-v2-v2, building on the findings presented in our recent paper titled "Injecting the BM25 Score as Text Improves BERT-Based Re-rankers." 
