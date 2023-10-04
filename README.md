@@ -1,4 +1,4 @@
-# Improving BERT-Based Re-rankers by Injecting First-Stage Retriever Score as Text 
+# RelevanceCAT: Injecting Relevance score of BM25 or Dense Retriever Improves Cross-encoder re-rankers
 
 <!---
 Our objective is to improve the effectiveness of ms-marco-MiniLM-L-12-v2-v2, building on the findings presented in our recent paper titled "Injecting the BM25 Score as Text Improves BERT-Based Re-rankers." 
